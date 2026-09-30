@@ -13,10 +13,10 @@
 
 ## 아키텍처
 
-클래스 기반 레이어드 아키텍처 + 인터페이스 DI
+클래스 기반 레이어드 아키텍처 + Repository 인터페이스 DI
 
 ```
-Controller → IService → IRepository → TypeORM DataSource
+Controller → Service → IRepository → TypeORM DataSource
 ```
 
 각 도메인은 `entity / dto / repository / service / controller` 구조를 가진다.
@@ -41,8 +41,8 @@ await this.boardRepository.save(board);
 ## 인터페이스 DI
 
 ```typescript
-// 인터페이스에 의존
-class BoardService implements IBoardService {
+// Repository만 인터페이스에 의존 (구현체 교체 가능)
+class BoardService {
   constructor(private readonly boardRepository: IBoardRepository) {}
 }
 
@@ -90,12 +90,12 @@ src/
 │   ├── entity/Member.ts
 │   ├── dto/
 │   ├── repository/IMemberRepository.ts + MemberRepository.ts
-│   ├── service/IMemberService.ts + MemberService.ts
+│   ├── service/MemberService.ts
 │   └── controller/MemberController.ts
 ├── auth/
-│   └── (동일 구조)
+│   └── (entity, dto, repository/IAuthRepository+AuthRepository, service, controller)
 ├── board/
-│   └── (동일 구조)
+│   └── (entity, dto, repository/IBoardRepository+BoardRepository, service, controller)
 └── index.ts                     # DI 조립 + 서버 기동
 ```
 
