@@ -24,4 +24,8 @@ export const env = {
   jwt: {
     secret: required("JWT_SECRET"),
   },
+  redis: {
+    host: required("REDIS_HOST"),
+    port: parseInt(required("REDIS_PORT"), 10),
+  }
 };
