@@ -1,15 +1,16 @@
 # Board API TypeScript 마이그레이션 설계
 
 ## 목표
-- 원본: https://github.com/MyeongSooJang/Board (Spring Boot 3 / Java 21 / JPA / MySQL / JWT / S3)
-- 대상: 백엔드만 Express + TypeORM + MySQL 로 이식 (Vue 프론트는 그대로, 엔드포인트·응답 형식 호환)
+- 원본: https://github.com/MyeongSooJang/Board (Spring Boot 3 / Java 21 / JPA / MySQL / JWT / S3, 원본 DB 는 MySQL)
+- 대상: 백엔드만 Express + TypeORM + PostgreSQL 로 이식 (Vue 프론트는 그대로, 엔드포인트·응답 형식 호환)
 - 핵심 방향: **풍부한 도메인 모델**. 객체가 규칙을 스스로 처리하고, Service 는 조회 → 엔티티 메서드 호출 → 저장만 하는 얇은 계층.
 - TypeScript 학습이 병행되므로, Java ↔ TS 대응 개념을 각 단계에서 설명한다.
 
 ## 범위
 - 포함: auth, board, boardlike, bookmark, comment, commentlike, image(S3 presigned), member, report, security(JWT), exception, 공통 BaseEntity
 - 제외: 프론트엔드 TS 변환, Swagger(후순위), 배포 설정
-- DB: 원본 `init_schema.sql` 과 동일한 MySQL 스키마 사용 (가정. 변경 시 이 문서를 수정)
+- DB: PostgreSQL 사용 (원본은 MySQL). 스키마는 원본 `init_schema.sql` 의 테이블/컬럼 구성을 따르되, 엔티티 기준으로 TypeORM `synchronize` 가 생성한다.
+- MySQL → PostgreSQL 주의점: LIKE 가 대소문자 구분(검색은 `ILIKE`), AUTO_INCREMENT → IDENTITY, DATETIME → TIMESTAMP, 따옴표 없는 식별자는 소문자로 저장.
 
 ## 접근법
 TypeORM 엔티티 = 도메인 객체 (JPA 원본과 동일한 방식). 별도 순수 도메인/매퍼 계층은 두지 않는다.
