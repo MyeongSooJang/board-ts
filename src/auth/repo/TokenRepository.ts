@@ -6,7 +6,7 @@ export class TokenRepository{
     async save(username: string, refreshtoken: string): Promise<void> {
         await redis.set(refreshtoken, username,"EX", this.ttl);
     }
-    async deleteByUsername(refreshtoken: string): Promise<void>{
+    async deleteByRefreshToken(refreshtoken: string): Promise<void>{
         await redis.del(refreshtoken);
     }
     async findToken(refreshtoken: string): Promise<string | null>{
