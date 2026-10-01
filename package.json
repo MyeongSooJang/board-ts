@@ -15,10 +15,12 @@
   "author": "MyeongSooJang",
   "license": "ISC",
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.4",
     "express": "^5.2.1",
     "ioredis": "^5.11.1",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^1.1.1"
