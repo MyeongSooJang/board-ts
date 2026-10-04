@@ -3,6 +3,7 @@ import express from "express";
 import { env } from "./config/env";
 import { database } from "./config/data-source";
 import { authController } from "./config/container";
+import { errorHandler } from "./exception/errorHandler";
 
 
 const app = express();
@@ -19,7 +20,8 @@ async function bootstrap() {
   try {
     await database.initialize();
     console.log(`${env.db.database} 연결 성공`);
-    app.use("/auth",authController.router)
+    app.use("/auth", authController.router);
+    app.use(errorHandler);
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.log(error);
