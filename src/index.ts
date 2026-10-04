@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import { env } from "./config/env";
 import { database } from "./config/data-source";
-import { authController } from "./config/container";
+import { authController, boardController } from "./config/container";
 import { errorHandler } from "./exception/errorHandler";
 
 
@@ -21,6 +21,7 @@ async function bootstrap() {
     await database.initialize();
     console.log(`${env.db.database} 연결 성공`);
     app.use("/auth", authController.router);
+    app.use("/boards", boardController.router);
     app.use(errorHandler);
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {

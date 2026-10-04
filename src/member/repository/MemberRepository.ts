@@ -12,6 +12,10 @@ export class MemberRepository {
         return await this.repo.findOne({where:{username}})
     }
 
+    async findById(id: number): Promise<Member | null> {
+        return await this.repo.findOne({ where: { id } });
+    }
+
     async findByEmail(email: string): Promise<Member | null> {
         return await this.repo.findOne({where:{email}})
     }

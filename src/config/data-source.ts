@@ -1,5 +1,7 @@
 import { env } from "./env";
 import { DataSource } from "typeorm";
+import { Member } from "../member/entity/Member";
+import { Board } from "../board/entity/Board";
 
 export const database = new DataSource({
   type: "postgres",
@@ -9,5 +11,5 @@ export const database = new DataSource({
   password: env.db.password,
   database: env.db.database,
   synchronize: true,
-  entities: [],
+  entities: [Member, Board],
 });
