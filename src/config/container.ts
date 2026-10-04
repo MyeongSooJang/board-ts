@@ -1,4 +1,6 @@
 import { MemberRepository } from "../member/repository/MemberRepository";
+import { MemberService } from "../member/service/MemberService";
+import { MemberController } from "../member/controller/MemberController";
 import { TokenRepository } from "../auth/repo/TokenRepository";
 import { JwtTokenProvider } from "../security/JwtTokenProvider";
 import { AuthService } from "../auth/service/AuthService";
@@ -9,6 +11,9 @@ import { BoardController } from "../board/controller/BoardController";
 import { database } from "./data-source";
 
 const memberRepository = new MemberRepository(database);
+const memberService = new MemberService(memberRepository);
+export const memberController = new MemberController(memberService);
+
 const tokenRepository = new TokenRepository();
 const jwtTokenProvider = new JwtTokenProvider();
 const authService = new AuthService(memberRepository, tokenRepository, jwtTokenProvider);

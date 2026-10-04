@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import { env } from "./config/env";
 import { database } from "./config/data-source";
-import { authController, boardController } from "./config/container";
+import { authController, boardController, memberController } from "./config/container";
 import { errorHandler } from "./exception/errorHandler";
 
 
@@ -20,6 +20,7 @@ async function bootstrap() {
   try {
     await database.initialize();
     console.log(`${env.db.database} 연결 성공`);
+    app.use("/members", memberController.router);
     app.use("/auth", authController.router);
     app.use("/boards", boardController.router);
     app.use(errorHandler);
