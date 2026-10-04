@@ -1,8 +1,9 @@
-import { TokenRepository } from "../repo/TokenRepository"
+import { TokenRepository } from "../repo/TokenRepository";
 import { MemberRepository } from "../../member/repository/MemberRepository";
 import { JwtTokenProvider } from "../../security/JwtTokenProvider";
 import { Member } from "../../member/entity/Member";
 import { LoginResponse } from "../dto/LoginResponse";
+import { NotFoundException } from "../../exception/NotFoundException";
 
 export class AuthService {
     constructor(
@@ -18,13 +19,12 @@ export class AuthService {
         const accessToken = this.jwtTokenProvider.generateAccessToken(member.username, member.role);
         const refreshToken = this.jwtTokenProvider.generateRefreshToken(member.username);
         await this.tokenRepository.save(username, refreshToken);
-        return new LoginResponse(accessToken, refreshToken, member.username, member.name,
-            member.role);
+        return new LoginResponse(accessToken, refreshToken, member.username, member.name,member.role);
     }
 
     isMemberExist(member: Member | null): asserts member is Member {
         if (member === null) {
-            throw new Error("존재하는 회원이 없습니다");
+            throw new NotFoundException("존재하는 회원이 없습니다");
         }
     }
 

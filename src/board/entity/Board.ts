@@ -1,5 +1,7 @@
 import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Entity, ManyToOne } from "typeorm";
 import { Member } from "../../member/entity/Member";
+import { ValidationException } from "../../exception/ValidationException";
+import { UnauthorizedException } from "../../exception/UnauthorizedException";
 
 @Entity()
 export class Board {
@@ -38,13 +40,13 @@ export class Board {
 
     private static validateTitle(title: string): void {
         if (!title) {
-            throw new Error("제목은 필수입니다");
+            throw new ValidationException("제목은 필수입니다");
         }
     }
 
     private static validateMember(member: Member): void {
         if (!member) {
-            throw new Error("작성자는 필수입니다");
+            throw new ValidationException("작성자는 필수입니다");
         }
     }
 
@@ -57,7 +59,7 @@ export class Board {
 
     private assertWritter(member: Member): void {
         if (this.member.id !== member.id) {
-            throw new Error("자신이 작성하지 않은 게시물은 수정할 수 없습니다");
+            throw new UnauthorizedException("자신이 작성하지 않은 게시물은 수정할 수 없습니다");
         }
     }
 
@@ -69,7 +71,7 @@ export class Board {
 
     private assertDeleted(): void {
         if (this.deleteTime !== null) {
-            throw new Error("삭제된 게시물은 지울 수 없습니다");
+            throw new ValidationException("삭제된 게시물은 지울 수 없습니다");
         }
     }
 

@@ -1,9 +1,10 @@
 import {
-    Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
-    DeleteDateColumn, Entity
+  Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
+  DeleteDateColumn, Entity,
 } from "typeorm";
 import bcrypt from "bcryptjs";
-import {Role} from "./Role"
+import { Role } from "./Role";
+import { UnauthorizedException } from "../../exception/UnauthorizedException";
 
 
 @Entity()
@@ -44,7 +45,7 @@ export class Member {
 
     verifyPassword(inputpassword: string): void {
         if(!bcrypt.compareSync(inputpassword, this.password)){
-            throw new Error("비밀번호가 맞지 않습니다.");
+            throw new UnauthorizedException("비밀번호가 맞지 않습니다.");
         }
     }
 
