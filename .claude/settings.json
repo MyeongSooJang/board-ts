@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc --noEmit 2>&1)",
+      "WebFetch",
+      "mcp__claude_ai_Notion__notion-fetch"
+    ]
+  }
+}
